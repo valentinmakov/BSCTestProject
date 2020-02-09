@@ -36,6 +36,14 @@ export const deleteActivityFromList = (activityList: IActivity[], activityId: st
     return copyActivityList
 }
 
+export const replaceActivityInList = (activityList: IActivity[], editedActivity: IActivity): IActivity[] => {
+    const copyActivityList: IActivity[] = [...activityList]
+    const index: number = copyActivityList.findIndex((activity: IActivity): boolean => activity.id === editedActivity.id)
+    copyActivityList.splice(index, 1, editedActivity)
+
+    return copyActivityList
+}
+
 export const getAddElementRequestOptions = (elementTitle: string, activityList: IActivity[]): RequestInit => {
     const body: string = JSON.stringify(
         {
@@ -50,7 +58,21 @@ export const getAddElementRequestOptions = (elementTitle: string, activityList: 
     }
 }
 
-const getIsListModel = (dataItem: any): boolean =>
+export const getEditElementRequestOptions = (elementId: number, elementTitle: string): RequestInit => {
+    const body: string = JSON.stringify(
+        {
+            id: elementId,
+            title: elementTitle,
+        },
+    )
+
+    return {
+        method: 'PUT',
+        body,
+    }
+}
+
+const getIsEventModel = (dataItem: any): boolean =>
     dataItem.id &&
     typeof dataItem.id === 'number' &&
     dataItem.title &&
@@ -78,7 +100,7 @@ export const networkCall = <T>(
     responce.then((json: T): void => {
         // GET, initial data request
         if (options?.method === 'GET' && Array.isArray(json)) {
-            const isListModel: boolean = json.every((jsonItem: any): boolean => getIsListModel(jsonItem))
+            const isListModel: boolean = json.every((jsonItem: any): boolean => getIsEventModel(jsonItem))
 
             if (isListModel) {
                 success(json)
@@ -88,9 +110,9 @@ export const networkCall = <T>(
 
         // POST, add activity request
         if (options?.method === 'POST') {
-            const isListModel: boolean = getIsListModel(json)
+            const isEventtModel: boolean = getIsEventModel(json)
 
-            if (isListModel) {
+            if (isEventtModel) {
                 success(json)
             }
             failure({message: 'Invalid data format'})
@@ -99,6 +121,16 @@ export const networkCall = <T>(
         // DELETE, delete activity request
         if (options?.method === 'DELETE') {
             success(id)
+        }
+
+        // PUT, edit activity request
+        if (options?.method === 'PUT') {
+            const isEventtModel: boolean = getIsEventModel(json)
+
+            if (isEventtModel) {
+                success(json)
+            }
+            failure({message: 'Invalid data format'})
         }
     })
     .catch((error: any): void => {

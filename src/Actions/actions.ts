@@ -45,3 +45,10 @@ export const performChangeLanguage = (data: LanguageType): IAction<LanguageType>
         payload: data,
     }
 }
+
+export const editEventRequestSuccess = (data: IActivity): IAction<IActivity> => {
+    return {
+        type: actionTypes.EDIT_EVENT_REQUEST_SUCCESS,
+        payload: data,
+    }
+}

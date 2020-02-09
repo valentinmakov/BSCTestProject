@@ -10,7 +10,7 @@ import i18n from '../i18n'
 
 import ContainerApp from '../Containers/ContainerApp'
 import ContainerAddElement from '../Containers/ContainerAddElement'
-// import ContainerEditElement from '../Containers/ContainerEditElement'
+import ContainerEditElement from '../Containers/ContainerEditElement'
 
 import {Store} from 'redux'
 
@@ -33,10 +33,10 @@ const ComponentRoot: React.FunctionComponent<IProps> = (props: IProps): React.Re
                             path={'/addElement'}
                             component={ContainerAddElement}
                         />
-                        {/* <Route
+                        <Route
                             path={'/editElement'}
                             component={ContainerEditElement}
-                        /> */}
+                        />
                     </Switch>
                 </Router>
             </Provider>

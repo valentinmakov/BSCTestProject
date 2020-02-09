@@ -39,6 +39,7 @@ export const reducer = (state = initialState, action: IAction<any>): IData => {
             return {
                 ...state,
                 activityList: util.deleteActivityFromList(state.activityList, action.payload),
+                isFetching: false,
             }
 
         case actionTypes.REQUEST_FAIL:
@@ -52,6 +53,14 @@ export const reducer = (state = initialState, action: IAction<any>): IData => {
             return {
                 ...state,
                 language: action.payload,
+            }
+
+        case actionTypes.EDIT_EVENT_REQUEST_SUCCESS:
+            console.log('action.payload', action.payload)
+            return {
+                ...state,
+                activityList: util.replaceActivityInList(state.activityList, action.payload),
+                isFetching: false,
             }
 
         default:

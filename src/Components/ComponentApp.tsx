@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import {History} from 'history'
+
 import * as styles from '../Styles/app.styl'
 import {
     IDispatchProps,
@@ -16,6 +18,7 @@ import {
 } from '../Models/Models'
 
 interface IProps extends IDispatchProps, IStateProps, WithTranslation {
+    history: History,
 }
 
 const renderEmptyList = (): React.ReactElement =>
@@ -51,7 +54,7 @@ class ComponentApp extends Component<IProps> {
                 </div>
                 <div className={styles.linkListContainer}>
                     <p className={styles.linkContainer}>
-                        <Link to={'/addElement'}>Add activity</Link>
+                        <Link to={'/addElement'}>{t('addActivity')}</Link>
                     </p>
                 </div>
             </div>
@@ -59,21 +62,28 @@ class ComponentApp extends Component<IProps> {
     }
 
     renderActivity = (activity: IActivity, index: number): React.ReactElement => {
+        const t: (text: string) => string = this.props.t
+
         return (
             <div
                 key={activity.id}
                 className={styles.activityContainer}
             >
-                <button onClick={this.onDeleteButtonClick(activity.id)}>Delete activity</button>
+                <button onClick={this.onDeleteButtonClick(activity.id)}>{t('deleteActivity')}</button>
                 <p className={styles.activityContent}>
                     <span>{(index + 1).toString()}</span> <span>{activity.title}</span>
                 </p>
+                <button onClick={this.onAddElementButtonClick(activity)}>{t('editActivity')}</button>
             </div>
         )
     }
 
     onDeleteButtonClick = (id: number): (() => void) => (): void => {
         this.props.performDeleteActivityRequest(id)
+    }
+
+    onAddElementButtonClick = (activity: IActivity): (() => void) => (): void => {
+        this.props.history.push('/editElement', activity)
     }
 
     onLanguageButtonClick = (): void => {

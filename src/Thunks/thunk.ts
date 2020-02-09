@@ -75,6 +75,36 @@ export const performAddElementRequest = (
 }
 /* END AddElementRequest thunk chain */
 
+/* START EditElementRequest thunk chain */
+const editElementRequestSuccess = (element: IActivity): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.editEventRequestSuccess(element))
+}
+
+const editElementRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.dataRequestFail(error))
+}
+
+export const performEditElementRequest = (
+    id: number,
+    options: RequestInit,
+    navigationCallback: () => void,
+): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.requestStart())
+
+    util.networkCall(
+        id.toString(),
+        options,
+        (result: IActivity): void => {
+            dispatch(editElementRequestSuccess(result))
+            if (navigationCallback) {
+                navigationCallback()
+            }
+        },
+        (error: any): void => dispatch(editElementRequestFail(error)),
+    )
+}
+/* END EditElementRequest thunk chain */
+
 export const performChangeLanguage = (language: LanguageType): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.performChangeLanguage(language))
 }

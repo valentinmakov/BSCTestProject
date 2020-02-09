@@ -1,3 +1,6 @@
 {
-    "activityList": "Seznam aktivností"
+    "activityList": "Seznam aktivností",
+    "addActivity": "Dodat activnost",
+    "deleteActivity": "Smazar activnost",
+    "editActivity": "Upravit activitu"
 }
