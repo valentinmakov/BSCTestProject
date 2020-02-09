@@ -27,11 +27,11 @@ const mapStateToProps = (state: IRootState): IStateProps => ({
 
 const mapDispatchToProps = (dispatch: Function): IDispatchProps => ({
     performInitialDataRequest: (): void => {
-        dispatch(thunks.networkCall('', {method: 'GET'}))
+        dispatch(thunks.performInitialDataRequest())
     },
 
     performDeleteActivityRequest: (id: number): void => {
-        dispatch(thunks.networkCall(id.toString(), {method: 'DELETE'}))
+        dispatch(thunks.performDeleteActivityRequest(id.toString()))
     },
 
     performChangeLanguage: (language: LanguageType): void => {

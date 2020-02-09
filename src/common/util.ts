@@ -1,3 +1,4 @@
+import {baseURL} from '../Constants/constants'
 import {IActivity} from '../Models/Models'
 
 const getMaxId = (activityList: IActivity[]): number => {
@@ -47,4 +48,60 @@ export const getAddElementRequestOptions = (elementTitle: string, activityList: 
         method: 'POST',
         body,
     }
+}
+
+const getIsListModel = (dataItem: any): boolean =>
+    dataItem.id &&
+    typeof dataItem.id === 'number' &&
+    dataItem.title &&
+    typeof dataItem.title === 'string'
+
+const asyncCall = async <T>(url: string, options: RequestInit): Promise<T> => {
+    const response: Response = await fetch(url, options)
+
+    if (options?.method === 'DELETE' && response.status === 204) {
+        return new Promise(resolve => resolve())
+    }
+
+    return response.json()
+}
+
+export const networkCall = <T>(
+    id: string,
+    options: RequestInit,
+    success: (responce: T | string) => void,
+    failure: (error: any) => void,
+): void => {
+    const url: string = id.length > 0 ? `${baseURL}/${id}` : `${baseURL}`
+    const responce: Promise<T> = asyncCall(url, options)
+
+    responce.then((json: T): void => {
+        // GET, initial data request
+        if (options?.method === 'GET' && Array.isArray(json)) {
+            const isListModel: boolean = json.every((jsonItem: any): boolean => getIsListModel(jsonItem))
+
+            if (isListModel) {
+                success(json)
+            }
+            failure({message: 'Invalid data format'})
+        }
+
+        // POST, add activity request
+        if (options?.method === 'POST') {
+            const isListModel: boolean = getIsListModel(json)
+
+            if (isListModel) {
+                success(json)
+            }
+            failure({message: 'Invalid data format'})
+        }
+
+        // DELETE, delete activity request
+        if (options?.method === 'DELETE') {
+            success(id)
+        }
+    })
+    .catch((error: any): void => {
+        failure(error)
+    })
 }

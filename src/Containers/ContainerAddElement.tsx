@@ -24,7 +24,10 @@ const mapStateToProps = (state: IRootState): IStateProps => ({
 
 const mapDispatchToProps = (dispatch: Function): IDispatchProps => ({
     performAddElementRequest: (elementTitle: string, activityList: IActivity[], goBack: () => void): void => {
-        dispatch(thunks.networkCall('', util.getAddElementRequestOptions(elementTitle, activityList), goBack))
+        dispatch(thunks.performAddElementRequest(
+            util.getAddElementRequestOptions(elementTitle, activityList),
+            goBack,
+        ))
     },
 })
 

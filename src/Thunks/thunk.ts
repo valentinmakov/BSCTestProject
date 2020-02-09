@@ -1,77 +1,79 @@
 import * as actions from '../Actions/actions'
+import * as util from '../common/util'
 import {IActivity} from '../Models/Models'
-import {baseURL} from '../Constants/constants'
 import {LanguageType} from '../Models/Models'
 
-const getIsListModel = (dataItem: any): boolean =>
-    dataItem.id &&
-    typeof dataItem.id === 'number' &&
-    dataItem.title &&
-    typeof dataItem.title === 'string'
-
-
-const asyncCall = async <T>(url: string, options: RequestInit): Promise<T> => {
-    const response: Response = await fetch(url, options)
-
-    if (options?.method === 'DELETE' && response.status === 204) {
-        return new Promise(resolve => resolve())
-    }
-
-    return response.json()
+/* START InitialDataRequest thunk chain */
+const initialDataRequestSuccess = (result: IActivity[]): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.initialDataRequestSuccess(result))
 }
 
-export const networkCall = <T>(
-    id: string,
+const initialDataRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.dataRequestFail(error))
+}
+
+export const performInitialDataRequest = (): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.requestStart())
+
+    util.networkCall(
+        '',
+        {method: 'GET'},
+        (result: IActivity[]): void => dispatch(initialDataRequestSuccess(result)),
+        (error: any): void => dispatch(initialDataRequestFail(error)),
+    )
+}
+/* END InitialDataRequest thunk chain */
+
+/* START DeleteActivityRequest thunk chain */
+const deleteActivityRequestSuccess = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.dataDeleteSuccess(id))
+}
+
+const deleteActivityRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.dataRequestFail(error))
+}
+
+export const performDeleteActivityRequest = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.requestStart())
+
+    util.networkCall(
+        id,
+        {method: 'DELETE'},
+        (result: string): void => dispatch(deleteActivityRequestSuccess(result)),
+        (error: any): void => dispatch(deleteActivityRequestFail(error)),
+    )
+
+}
+/* END DeleteActivityRequest thunk chain */
+
+/* START AddElementRequest thunk chain */
+const addElementRequestSuccess = (element: IActivity): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.addEventRequestSuccess(element))
+}
+
+const addElementRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.dataRequestFail(error))
+}
+
+export const performAddElementRequest = (
     options: RequestInit,
     navigationCallback?: () => void,
 ): ((dispatch: Function) => void) => (dispatch: Function): void => {
-    const url: string = id.length > 0 ? `${baseURL}/${id}` : `${baseURL}`
-    dispatch(actions.dataRequestStart())
+    dispatch(actions.requestStart())
 
-    const responce: Promise<T> = asyncCall(url, options)
-
-    responce.then((json: T): void => {
-        // GET, initial data request
-        if (options?.method === 'GET' && Array.isArray(json)) {
-            const isListModel: boolean = json.every((jsonItem: any): boolean => getIsListModel(jsonItem))
-
-            if (isListModel) {
-                const result: IActivity[] = json.map((jsonItem: any): IActivity =>
-                    ({
-                        id: jsonItem.id,
-                        title: jsonItem.title,
-                    }),
-                )
-                dispatch(actions.dataRequestSuccess(result))
-            }
-            dispatch(actions.dataRequestFail({message: 'Invalid data format'}))
-        }
-
-        // POST, add activity request
-        if (options?.method === 'POST') {
-            const isListModel: boolean = getIsListModel(json)
-
-            if (isListModel) {
-                const result: IActivity = {
-                    id: (json as any).id,
-                    title: (json as any).title,
-                }
-
-                dispatch(actions.addEventRequestSuccess(result))
+    util.networkCall(
+        '',
+        options,
+        (result: IActivity): void => {
+            dispatch(addElementRequestSuccess(result))
+            if (navigationCallback) {
                 navigationCallback()
             }
-            dispatch(actions.dataRequestFail({message: 'Invalid data format'}))
-        }
-
-        // DELETE, delete activity request
-        if (options?.method === 'DELETE') {
-            dispatch(actions.dataDeleteSuccess(id))
-        }
-    })
-    .catch((error: any): void => {
-        dispatch(actions.dataRequestFail(error))
-    })
+        },
+        (error: any): void => dispatch(addElementRequestFail(error)),
+    )
 }
+/* END AddElementRequest thunk chain */
 
 export const performChangeLanguage = (language: LanguageType): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.performChangeLanguage(language))

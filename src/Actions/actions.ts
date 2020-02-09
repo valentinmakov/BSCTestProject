@@ -5,13 +5,13 @@ import {
     LanguageType,
 } from '../Models/Models'
 
-export const dataRequestStart = (): IAction<never> => {
+export const requestStart = (): IAction<never> => {
     return {
         type: actionTypes.REQUEST_START,
     }
 }
 
-export const dataRequestSuccess = (data: IActivity[]): IAction<IActivity[]> => {
+export const initialDataRequestSuccess = (data: IActivity[]): IAction<IActivity[]> => {
     return {
         type: actionTypes.REQUEST_SUCCESS,
         payload: data,
