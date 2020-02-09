@@ -2,5 +2,6 @@
     "eventList": "Event list",
     "addEvent": "Add event",
     "deleteEvent": "Delete event",
-    "editEvent": "Edit event"
+    "editEvent": "Edit event",
+    "submit": "Submit"
 }

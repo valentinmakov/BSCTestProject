@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 import {History} from 'history'
 
 import * as styles from '../Styles/app.styl'
@@ -37,13 +38,16 @@ class ComponentApp extends Component<IProps> {
 
         return (
             <div className={styles.mainApp}>
-                <button onClick={this.onLanguageButtonClick}>
+                <Button
+                    variant={'outlined'}
+                    onClick={this.onLanguageButtonClick}
+                >
                     {
                         this.props.language === 'cz'
                             ? 'English'
                             : 'Čeština'
                     }
-                </button>
+                </Button>
                 <h1 className={styles.mainAppHeader}>{t('eventList')}</h1>
                 <div className={styles.eventListContainer}>
                     {
@@ -69,11 +73,23 @@ class ComponentApp extends Component<IProps> {
                 key={event.id}
                 className={styles.eventContainer}
             >
-                <button onClick={this.onDeleteButtonClick(event.id)}>{t('deleteEvent')}</button>
+                <Button
+                    color={'primary'}
+                    variant={'contained'}
+                    onClick={this.onDeleteButtonClick(event.id)}
+                >
+                    {t('deleteEvent')}
+                </Button>
                 <p className={styles.eventContent}>
                     <span>{(index + 1).toString()}</span> <span>{event.title}</span>
                 </p>
-                <button onClick={this.onAddEventButtonClick(event)}>{t('editEvent')}</button>
+                <Button
+                    color={'primary'}
+                    variant={'contained'}
+                    onClick={this.onAddEventButtonClick(event)}
+                >
+                    {t('editEvent')}
+                </Button>
             </div>
         )
     }

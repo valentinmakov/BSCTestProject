@@ -1,12 +1,17 @@
 import React from 'react'
+import Input from '@material-ui/core/Input'
 import {History} from 'history'
+import {
+    withTranslation,
+    WithTranslation,
+} from 'react-i18next'
 
 import {
     IDispatchProps,
     IStateProps,
 } from '../Containers/ContainerEditEvent'
 
-interface IProps extends IDispatchProps, IStateProps {
+interface IProps extends IDispatchProps, IStateProps, WithTranslation {
     history: History,
 }
 
@@ -38,15 +43,18 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
     }
 
     render() {
+        const t: (text: string) => string = this.props.t
+
         return (
             <div>
-                <input
+                <Input
                     type={'text'}
                     value={this.state.eventTitle}
                     onChange={this.onTextType}
                 />
-                <input
+                <Input
                     type={'submit'}
+                    value={t('submit')}
                     onClick={this.onTextSubmit}
                 />
             </div>
@@ -69,4 +77,6 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
 
 }
 
-export default ComponentEditElement
+const TranslatedComponentEditElement: React.ComponentType = withTranslation()(ComponentEditElement)
+
+export default TranslatedComponentEditElement

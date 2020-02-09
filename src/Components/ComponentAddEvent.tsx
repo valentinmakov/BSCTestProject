@@ -1,12 +1,17 @@
 import React from 'react'
+import Input from '@material-ui/core/Input'
 import {History} from 'history'
+import {
+    withTranslation,
+    WithTranslation,
+} from 'react-i18next'
 
 import {
     IDispatchProps,
     IStateProps,
 } from '../Containers/ContainerAddEvent'
 
-interface IProps extends IDispatchProps, IStateProps {
+interface IProps extends IDispatchProps, IStateProps, WithTranslation {
     history: History,
 }
 
@@ -24,14 +29,17 @@ class ComponentAddEvent extends React.PureComponent<IProps, IState> {
     }
 
     render() {
+        const t: (text: string) => string = this.props.t
+
         return (
             <div>
-                <input
+                <Input
                     type={'text'}
                     onChange={this.onTextType}
                 />
-                <input
+                <Input
                     type={'submit'}
+                    value={t('submit')}
                     onClick={this.onTextSubmit}
                 />
             </div>
@@ -52,4 +60,6 @@ class ComponentAddEvent extends React.PureComponent<IProps, IState> {
 
 }
 
-export default ComponentAddEvent
+const TranslatedComponentAddEvent: React.ComponentType = withTranslation()(ComponentAddEvent)
+
+export default TranslatedComponentAddEvent

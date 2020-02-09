@@ -1,6 +1,7 @@
 {
-    "eventList": "Seznam aktivností",
-    "addEvent": "Dodat activnost",
-    "deleteEvent": "Smazar activnost",
-    "editEvent": "Upravit activitu"
+    "eventList": "Seznam událostí",
+    "addEvent": "Dodat událost",
+    "deleteEvent": "Smazat událost",
+    "editEvent": "Upravit událost",
+    "submit": "Podat"
 }
