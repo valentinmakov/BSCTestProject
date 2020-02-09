@@ -9,8 +9,8 @@ import {I18nextProvider} from 'react-i18next'
 import i18n from '../i18n'
 
 import ContainerApp from '../Containers/ContainerApp'
-import ContainerAddElement from '../Containers/ContainerAddElement'
-import ContainerEditElement from '../Containers/ContainerEditElement'
+import ContainerAddEvent from '../Containers/ContainerAddEvent'
+import ContainerEditElement from '../Containers/ContainerEditEvent'
 
 import {Store} from 'redux'
 
@@ -30,11 +30,11 @@ const ComponentRoot: React.FunctionComponent<IProps> = (props: IProps): React.Re
                             component={ContainerApp}
                         />
                         <Route
-                            path={'/addElement'}
-                            component={ContainerAddElement}
+                            path={'/addEvent'}
+                            component={ContainerAddEvent}
                         />
                         <Route
-                            path={'/editElement'}
+                            path={'/editEvent'}
                             component={ContainerEditElement}
                         />
                     </Switch>

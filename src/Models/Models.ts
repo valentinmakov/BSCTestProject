@@ -3,7 +3,7 @@ export interface IAction<T> {
     payload?: T,
 }
 
-export interface IActivity {
+export interface IEvent {
     id: number,
     title: string,
 }
@@ -15,7 +15,7 @@ export interface IRootState {
 export interface IData {
     language: LanguageType,
     isFetching: boolean,
-    activityList: IActivity[] | null,
+    eventList: IEvent[] | null,
     error: any,
 }
 

@@ -1,5 +1,5 @@
-import {initialState, reducer} from '../src/Reducers/reducer'
-import * as actionTypes from '../src/Actions/actionTypes'
+import {initialState, reducer} from '../src/Reducers/Reducer'
+import * as actionTypes from '../src/Actions/ActionTypes'
 
 const action = {
     type: actionTypes.REQUEST_START,

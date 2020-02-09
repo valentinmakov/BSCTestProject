@@ -1,54 +1,54 @@
-import {baseURL} from '../Constants/constants'
-import {IActivity} from '../Models/Models'
+import {baseURL} from '../Constants/Constants'
+import {IEvent} from '../Models/Models'
 
-const getMaxId = (activityList: IActivity[]): number => {
+const getMaxId = (eventList: IEvent[]): number => {
     return Math.max(
-        ...activityList.map((activity: IActivity): number => activity.id),
+        ...eventList.map((event: IEvent): number => event.id),
     )
 }
 
-const getIdFromActivityList = (activityList: IActivity[]): number => {
-    if (activityList.length === 0) {
+const getIdFromEventList = (eventList: IEvent[]): number => {
+    if (eventList.length === 0) {
         return 1
     }
 
-    return getMaxId(activityList) + 1
+    return getMaxId(eventList) + 1
 }
 
-export const addActivityToList = (activityList: IActivity[], newActivity: IActivity): IActivity[] => {
-    const isIdExistsInList: boolean = activityList.some((activity: IActivity): boolean => activity.id === newActivity.id)
+export const addEventToList = (eventList: IEvent[], newEvent: IEvent): IEvent[] => {
+    const isIdExistsInList: boolean = eventList.some((event: IEvent): boolean => event.id === newEvent.id)
 
     if (isIdExistsInList) {
-        newActivity = {
-            ...newActivity,
-            id: getMaxId(activityList) + 1,
+        newEvent = {
+            ...newEvent,
+            id: getMaxId(eventList) + 1,
         }
     }
 
-    return [...activityList, newActivity]
+    return [...eventList, newEvent]
 }
 
-export const deleteActivityFromList = (activityList: IActivity[], activityId: string): IActivity[] => {
-    const copyActivityList: IActivity[] = [...activityList]
-    const index: number = copyActivityList.findIndex((activity: IActivity): boolean => activity.id === parseInt(activityId, 10))
-    copyActivityList.splice(index, 1)
+export const deleteEventFromList = (eventList: IEvent[], eventId: string): IEvent[] => {
+    const copyEventList: IEvent[] = [...eventList]
+    const index: number = copyEventList.findIndex((event: IEvent): boolean => event.id === parseInt(eventId, 10))
+    copyEventList.splice(index, 1)
 
-    return copyActivityList
+    return copyEventList
 }
 
-export const replaceActivityInList = (activityList: IActivity[], editedActivity: IActivity): IActivity[] => {
-    const copyActivityList: IActivity[] = [...activityList]
-    const index: number = copyActivityList.findIndex((activity: IActivity): boolean => activity.id === editedActivity.id)
-    copyActivityList.splice(index, 1, editedActivity)
+export const replaceEventInList = (eventList: IEvent[], editedEvent: IEvent): IEvent[] => {
+    const copyEventList: IEvent[] = [...eventList]
+    const index: number = copyEventList.findIndex((event: IEvent): boolean => event.id === editedEvent.id)
+    copyEventList.splice(index, 1, editedEvent)
 
-    return copyActivityList
+    return copyEventList
 }
 
-export const getAddElementRequestOptions = (elementTitle: string, activityList: IActivity[]): RequestInit => {
+export const getAddEventRequestOptions = (eventTitle: string, eventList: IEvent[]): RequestInit => {
     const body: string = JSON.stringify(
         {
-            id: getIdFromActivityList(activityList),
-            title: elementTitle,
+            id: getIdFromEventList(eventList),
+            title: eventTitle,
         },
     )
 
@@ -58,11 +58,11 @@ export const getAddElementRequestOptions = (elementTitle: string, activityList: 
     }
 }
 
-export const getEditElementRequestOptions = (elementId: number, elementTitle: string): RequestInit => {
+export const getEditElementRequestOptions = (elementId: number, eventTitle: string): RequestInit => {
     const body: string = JSON.stringify(
         {
             id: elementId,
-            title: elementTitle,
+            title: eventTitle,
         },
     )
 
@@ -108,7 +108,7 @@ export const networkCall = <T>(
             failure({message: 'Invalid data format'})
         }
 
-        // POST, add activity request
+        // POST, add event request
         if (options?.method === 'POST') {
             const isEventtModel: boolean = getIsEventModel(json)
 
@@ -118,12 +118,12 @@ export const networkCall = <T>(
             failure({message: 'Invalid data format'})
         }
 
-        // DELETE, delete activity request
+        // DELETE, delete event request
         if (options?.method === 'DELETE') {
             success(id)
         }
 
-        // PUT, edit activity request
+        // PUT, edit event request
         if (options?.method === 'PUT') {
             const isEventtModel: boolean = getIsEventModel(json)
 

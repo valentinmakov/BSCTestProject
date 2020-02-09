@@ -1,4 +1,4 @@
-import * as actionTypes from '../Actions/actionTypes'
+import * as actionTypes from '../Actions/ActionTypes'
 import {
     IAction,
     IData,
@@ -9,7 +9,7 @@ import * as util from '../common/util'
 export const initialState: IData = {
     language: 'cz',
     isFetching: false,
-    activityList: null,
+    eventList: null,
     error: null,
 }
 
@@ -24,21 +24,21 @@ export const reducer = (state = initialState, action: IAction<any>): IData => {
         case actionTypes.REQUEST_SUCCESS:
             return {
                 ...state,
-                activityList: action.payload,
+                eventList: action.payload,
                 isFetching: false,
             }
 
         case actionTypes.ADD_EVENT_REQUEST_SUCCESS:
             return {
                 ...state,
-                activityList: util.addActivityToList(state.activityList, action.payload),
+                eventList: util.addEventToList(state.eventList, action.payload),
                 isFetching: false,
             }
 
         case actionTypes.DELETE_EVENT_REQUEST_SUCCESS:
             return {
                 ...state,
-                activityList: util.deleteActivityFromList(state.activityList, action.payload),
+                eventList: util.deleteEventFromList(state.eventList, action.payload),
                 isFetching: false,
             }
 
@@ -56,10 +56,9 @@ export const reducer = (state = initialState, action: IAction<any>): IData => {
             }
 
         case actionTypes.EDIT_EVENT_REQUEST_SUCCESS:
-            console.log('action.payload', action.payload)
             return {
                 ...state,
-                activityList: util.replaceActivityInList(state.activityList, action.payload),
+                eventList: util.replaceEventInList(state.eventList, action.payload),
                 isFetching: false,
             }
 

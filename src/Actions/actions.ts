@@ -1,6 +1,6 @@
-import * as actionTypes from './actionTypes'
+import * as actionTypes from './ActionTypes'
 import {
-    IActivity,
+    IEvent,
     IAction,
     LanguageType,
 } from '../Models/Models'
@@ -11,14 +11,14 @@ export const requestStart = (): IAction<never> => {
     }
 }
 
-export const initialDataRequestSuccess = (data: IActivity[]): IAction<IActivity[]> => {
+export const initialDataRequestSuccess = (data: IEvent[]): IAction<IEvent[]> => {
     return {
         type: actionTypes.REQUEST_SUCCESS,
         payload: data,
     }
 }
 
-export const addEventRequestSuccess = (data: IActivity): IAction<IActivity> => {
+export const addEventRequestSuccess = (data: IEvent): IAction<IEvent> => {
     return {
         type: actionTypes.ADD_EVENT_REQUEST_SUCCESS,
         payload: data,
@@ -46,7 +46,7 @@ export const performChangeLanguage = (data: LanguageType): IAction<LanguageType>
     }
 }
 
-export const editEventRequestSuccess = (data: IActivity): IAction<IActivity> => {
+export const editEventRequestSuccess = (data: IEvent): IAction<IEvent> => {
     return {
         type: actionTypes.EDIT_EVENT_REQUEST_SUCCESS,
         payload: data,

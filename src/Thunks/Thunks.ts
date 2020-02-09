@@ -1,10 +1,10 @@
-import * as actions from '../Actions/actions'
+import * as actions from '../Actions/Actions'
 import * as util from '../common/util'
-import {IActivity} from '../Models/Models'
+import {IEvent} from '../Models/Models'
 import {LanguageType} from '../Models/Models'
 
 /* START InitialDataRequest thunk chain */
-const initialDataRequestSuccess = (result: IActivity[]): ((dispatch: Function) => void) => (dispatch: Function): void => {
+const initialDataRequestSuccess = (result: IEvent[]): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.initialDataRequestSuccess(result))
 }
 
@@ -18,44 +18,44 @@ export const performInitialDataRequest = (): ((dispatch: Function) => void) => (
     util.networkCall(
         '',
         {method: 'GET'},
-        (result: IActivity[]): void => dispatch(initialDataRequestSuccess(result)),
+        (result: IEvent[]): void => dispatch(initialDataRequestSuccess(result)),
         (error: any): void => dispatch(initialDataRequestFail(error)),
     )
 }
 /* END InitialDataRequest thunk chain */
 
-/* START DeleteActivityRequest thunk chain */
-const deleteActivityRequestSuccess = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
+/* START DeleteEventRequest thunk chain */
+const deleteEventRequestSuccess = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.dataDeleteSuccess(id))
 }
 
-const deleteActivityRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+const deleteEventRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.dataRequestFail(error))
 }
 
-export const performDeleteActivityRequest = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
+export const performDeleteEventRequest = (id: string): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.requestStart())
 
     util.networkCall(
         id,
         {method: 'DELETE'},
-        (result: string): void => dispatch(deleteActivityRequestSuccess(result)),
-        (error: any): void => dispatch(deleteActivityRequestFail(error)),
+        (result: string): void => dispatch(deleteEventRequestSuccess(result)),
+        (error: any): void => dispatch(deleteEventRequestFail(error)),
     )
 
 }
-/* END DeleteActivityRequest thunk chain */
+/* END DeleteEventRequest thunk chain */
 
-/* START AddElementRequest thunk chain */
-const addElementRequestSuccess = (element: IActivity): ((dispatch: Function) => void) => (dispatch: Function): void => {
+/* START AddEventRequest thunk chain */
+const addEventRequestSuccess = (element: IEvent): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.addEventRequestSuccess(element))
 }
 
-const addElementRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+const addEventRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.dataRequestFail(error))
 }
 
-export const performAddElementRequest = (
+export const performAddEventRequest = (
     options: RequestInit,
     navigationCallback?: () => void,
 ): ((dispatch: Function) => void) => (dispatch: Function): void => {
@@ -64,23 +64,23 @@ export const performAddElementRequest = (
     util.networkCall(
         '',
         options,
-        (result: IActivity): void => {
-            dispatch(addElementRequestSuccess(result))
+        (result: IEvent): void => {
+            dispatch(addEventRequestSuccess(result))
             if (navigationCallback) {
                 navigationCallback()
             }
         },
-        (error: any): void => dispatch(addElementRequestFail(error)),
+        (error: any): void => dispatch(addEventRequestFail(error)),
     )
 }
-/* END AddElementRequest thunk chain */
+/* END AddEventRequest thunk chain */
 
 /* START EditElementRequest thunk chain */
-const editElementRequestSuccess = (element: IActivity): ((dispatch: Function) => void) => (dispatch: Function): void => {
+const editEventRequestSuccess = (element: IEvent): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.editEventRequestSuccess(element))
 }
 
-const editElementRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
+const editEventRequestFail = (error: any): ((dispatch: Function) => void) => (dispatch: Function): void => {
     dispatch(actions.dataRequestFail(error))
 }
 
@@ -94,13 +94,13 @@ export const performEditElementRequest = (
     util.networkCall(
         id.toString(),
         options,
-        (result: IActivity): void => {
-            dispatch(editElementRequestSuccess(result))
+        (result: IEvent): void => {
+            dispatch(editEventRequestSuccess(result))
             if (navigationCallback) {
                 navigationCallback()
             }
         },
-        (error: any): void => dispatch(editElementRequestFail(error)),
+        (error: any): void => dispatch(editEventRequestFail(error)),
     )
 }
 /* END EditElementRequest thunk chain */

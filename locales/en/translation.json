@@ -1,6 +1,6 @@
 {
-    "activityList": "Activity list",
-    "addActivity": "Add activity",
-    "deleteActivity": "Delete activity",
-    "editActivity": "Edit activity"
+    "eventList": "Event list",
+    "addEvent": "Add event",
+    "deleteEvent": "Delete event",
+    "editEvent": "Edit event"
 }

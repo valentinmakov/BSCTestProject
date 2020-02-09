@@ -6,7 +6,7 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk'
 
-import { reducer } from '../Reducers/reducer'
+import { reducer } from '../Reducers/Reducer'
 
 const rootReducer: Reducer = combineReducers({reducer})
 

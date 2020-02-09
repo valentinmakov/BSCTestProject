@@ -13,7 +13,7 @@ import {
 } from 'react-i18next'
 
 import {
-    IActivity,
+    IEvent,
     LanguageType,
 } from '../Models/Models'
 
@@ -22,13 +22,13 @@ interface IProps extends IDispatchProps, IStateProps, WithTranslation {
 }
 
 const renderEmptyList = (): React.ReactElement =>
-    <div className={styles.activityContainer}>
+    <div className={styles.eventContainer}>
         <p>List is empty</p>
     </div>
 
 class ComponentApp extends Component<IProps> {
     componentDidMount() {
-        if (this.props.activityList === null && !this.props.isFetching)
+        if (this.props.eventList === null && !this.props.isFetching)
             this.props.performInitialDataRequest()
     }
 
@@ -44,46 +44,46 @@ class ComponentApp extends Component<IProps> {
                             : 'Čeština'
                     }
                 </button>
-                <h1 className={styles.mainAppHeader}>{t('activityList')}</h1>
-                <div className={styles.activityListContainer}>
+                <h1 className={styles.mainAppHeader}>{t('eventList')}</h1>
+                <div className={styles.eventListContainer}>
                     {
-                        this.props.activityList && this.props.activityList.length > 0
-                            ? this.props.activityList.map(this.renderActivity)
+                        this.props.eventList && this.props.eventList.length > 0
+                            ? this.props.eventList.map(this.renderEvent)
                             : renderEmptyList()
                     }
                 </div>
                 <div className={styles.linkListContainer}>
                     <p className={styles.linkContainer}>
-                        <Link to={'/addElement'}>{t('addActivity')}</Link>
+                        <Link to={'/addEvent'}>{t('addEvent')}</Link>
                     </p>
                 </div>
             </div>
         )
     }
 
-    renderActivity = (activity: IActivity, index: number): React.ReactElement => {
+    renderEvent = (event: IEvent, index: number): React.ReactElement => {
         const t: (text: string) => string = this.props.t
 
         return (
             <div
-                key={activity.id}
-                className={styles.activityContainer}
+                key={event.id}
+                className={styles.eventContainer}
             >
-                <button onClick={this.onDeleteButtonClick(activity.id)}>{t('deleteActivity')}</button>
-                <p className={styles.activityContent}>
-                    <span>{(index + 1).toString()}</span> <span>{activity.title}</span>
+                <button onClick={this.onDeleteButtonClick(event.id)}>{t('deleteEvent')}</button>
+                <p className={styles.eventContent}>
+                    <span>{(index + 1).toString()}</span> <span>{event.title}</span>
                 </p>
-                <button onClick={this.onAddElementButtonClick(activity)}>{t('editActivity')}</button>
+                <button onClick={this.onAddEventButtonClick(event)}>{t('editEvent')}</button>
             </div>
         )
     }
 
     onDeleteButtonClick = (id: number): (() => void) => (): void => {
-        this.props.performDeleteActivityRequest(id)
+        this.props.performDeleteEventRequest(id)
     }
 
-    onAddElementButtonClick = (activity: IActivity): (() => void) => (): void => {
-        this.props.history.push('/editElement', activity)
+    onAddEventButtonClick = (event: IEvent): (() => void) => (): void => {
+        this.props.history.push('/editEvent', event)
     }
 
     onLanguageButtonClick = (): void => {

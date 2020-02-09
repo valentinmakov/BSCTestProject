@@ -4,22 +4,22 @@ import {History} from 'history'
 import {
     IDispatchProps,
     IStateProps,
-} from '../Containers/ContainerAddElement'
+} from '../Containers/ContainerAddEvent'
 
 interface IProps extends IDispatchProps, IStateProps {
     history: History,
 }
 
 interface IState {
-    newActivityTitle: string,
+    newEventTitle: string,
 }
 
-class ComponentAddElement extends React.PureComponent<IProps, IState> {
+class ComponentAddEvent extends React.PureComponent<IProps, IState> {
     constructor(props: IProps) {
         super(props)
 
         this.state = {
-            newActivityTitle: '',
+            newEventTitle: '',
         }
     }
 
@@ -39,17 +39,17 @@ class ComponentAddElement extends React.PureComponent<IProps, IState> {
     }
 
     onTextType = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        this.setState({newActivityTitle: event.target.value})
+        this.setState({newEventTitle: event.target.value})
     }
 
     onTextSubmit = (): void => {
-        this.props.performAddElementRequest(
-            this.state.newActivityTitle,
-            this.props.activityList,
+        this.props.performAddEventRequest(
+            this.state.newEventTitle,
+            this.props.eventList,
             this.props.history.goBack,
         )
     }
 
 }
 
-export default ComponentAddElement
+export default ComponentAddEvent

@@ -4,15 +4,15 @@ import {History} from 'history'
 import {
     IDispatchProps,
     IStateProps,
-} from '../Containers/ContainerEditElement'
+} from '../Containers/ContainerEditEvent'
 
 interface IProps extends IDispatchProps, IStateProps {
     history: History,
 }
 
 interface IState {
-    activityId: number | null,
-    activityTitle: string,
+    eventId: number | null,
+    eventTitle: string,
 }
 
 class ComponentEditElement extends React.PureComponent<IProps, IState> {
@@ -20,8 +20,8 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
         super(props)
 
         this.state = {
-            activityId: null,
-            activityTitle: '',
+            eventId: null,
+            eventTitle: '',
         }
     }
 
@@ -31,8 +31,8 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
 
         if (eventTitle && typeof eventTitle === 'string' && eventId && typeof eventId === 'number') {
             this.setState({
-                activityId: eventId,
-                activityTitle: eventTitle,
+                eventId: eventId,
+                eventTitle: eventTitle,
             })
         }
     }
@@ -42,7 +42,7 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
             <div>
                 <input
                     type={'text'}
-                    value={this.state.activityTitle}
+                    value={this.state.eventTitle}
                     onChange={this.onTextType}
                 />
                 <input
@@ -54,14 +54,14 @@ class ComponentEditElement extends React.PureComponent<IProps, IState> {
     }
 
     onTextType = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        this.setState({activityTitle: event.target.value})
+        this.setState({eventTitle: event.target.value})
     }
 
     onTextSubmit = (): void => {
-        if (this.state.activityId && this.state.activityTitle.length > 0) {
+        if (this.state.eventId && this.state.eventTitle.length > 0) {
             this.props.performEditElementRequest(
-                this.state.activityId,
-                this.state.activityTitle,
+                this.state.eventId,
+                this.state.eventTitle,
                 this.props.history.goBack,
             )
         }

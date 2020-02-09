@@ -1,26 +1,26 @@
 import {connect} from 'react-redux'
 import ComponentApp from '../Components/ComponentApp'
-import * as thunks from '../Thunks/thunk'
+import * as thunks from '../Thunks/Thunks'
 import {
-    IActivity,
+    IEvent,
     IRootState,
     LanguageType,
 } from '../Models/Models'
 
 export interface IStateProps {
-    activityList: IActivity[],
+    eventList: IEvent[],
     isFetching: boolean,
     language: LanguageType,
 }
 
 export interface IDispatchProps {
     performInitialDataRequest: () => void,
-    performDeleteActivityRequest: (id: number) => void,
+    performDeleteEventRequest: (id: number) => void,
     performChangeLanguage: (language: LanguageType) => void,
 }
 
 const mapStateToProps = (state: IRootState): IStateProps => ({
-    activityList: state.reducer.activityList,
+    eventList: state.reducer.eventList,
     isFetching: state.reducer.isFetching,
     language: state.reducer.language,
 })
@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch: Function): IDispatchProps => ({
         dispatch(thunks.performInitialDataRequest())
     },
 
-    performDeleteActivityRequest: (id: number): void => {
-        dispatch(thunks.performDeleteActivityRequest(id.toString()))
+    performDeleteEventRequest: (id: number): void => {
+        dispatch(thunks.performDeleteEventRequest(id.toString()))
     },
 
     performChangeLanguage: (language: LanguageType): void => {

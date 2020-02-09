@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
-import ComponentEditElement from '../Components/ComponentEditElement'
-import * as thunks from '../Thunks/thunk'
+import ComponentEditElement from '../Components/ComponentEditEvent'
+import * as thunks from '../Thunks/Thunks'
 import * as util from '../common/util'
 
 import {
@@ -12,7 +12,7 @@ export interface IStateProps {
 }
 
 export interface IDispatchProps {
-    performEditElementRequest: (elementId: number, elementTitle: string, goBack: () => void) => void,
+    performEditElementRequest: (elementId: number, eventTitle: string, goBack: () => void) => void,
 }
 
 const mapStateToProps = (state: IRootState): IStateProps => ({
@@ -20,10 +20,10 @@ const mapStateToProps = (state: IRootState): IStateProps => ({
 })
 
 const mapDispatchToProps = (dispatch: Function): IDispatchProps => ({
-    performEditElementRequest: (elementId: number, elementTitle: string, goBack: () => void): void => {
+    performEditElementRequest: (elementId: number, eventTitle: string, goBack: () => void): void => {
         dispatch(thunks.performEditElementRequest(
             elementId,
-            util.getEditElementRequestOptions(elementId, elementTitle),
+            util.getEditElementRequestOptions(elementId, eventTitle),
             goBack,
         ))
     },
