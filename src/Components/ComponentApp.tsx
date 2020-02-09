@@ -18,24 +18,12 @@ import {
 interface IProps extends IDispatchProps, IStateProps, WithTranslation {
 }
 
-interface IState {
-    language: LanguageType,
-}
-
 const renderEmptyList = (): React.ReactElement =>
     <div className={styles.activityContainer}>
         <p>List is empty</p>
     </div>
 
-class ComponentApp extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props)
-
-        this.state = {
-            language: 'cz',
-        }
-    }
-
+class ComponentApp extends Component<IProps> {
     componentDidMount() {
         if (this.props.activityList === null && !this.props.isFetching)
             this.props.performInitialDataRequest()
@@ -48,7 +36,7 @@ class ComponentApp extends Component<IProps, IState> {
             <div className={styles.mainApp}>
                 <button onClick={this.onLanguageButtonClick}>
                     {
-                        this.state.language === 'cz'
+                        this.props.language === 'cz'
                             ? 'English'
                             : 'Čeština'
                     }
@@ -89,10 +77,10 @@ class ComponentApp extends Component<IProps, IState> {
     }
 
     onLanguageButtonClick = (): void => {
-        const nextLang: LanguageType = this.state.language === 'cz'
+        const nextLang: LanguageType = this.props.language === 'cz'
             ? 'en'
             : 'cz'
-        this.setState({language: nextLang})
+        this.props.performChangeLanguage(nextLang)
         this.props.i18n.changeLanguage(nextLang)
     }
 }

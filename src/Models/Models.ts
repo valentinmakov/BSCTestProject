@@ -13,6 +13,7 @@ export interface IRootState {
 }
 
 export interface IData {
+    language: LanguageType,
     isFetching: boolean,
     activityList: IActivity[] | null,
     error: any,

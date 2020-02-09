@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes'
 import {
     IActivity,
     IAction,
+    LanguageType,
 } from '../Models/Models'
 
 export const dataRequestStart = (): IAction<never> => {
@@ -35,5 +36,12 @@ export const dataRequestFail = (error: any): IAction<any> => {
     return {
         type: actionTypes.REQUEST_FAIL,
         payload: error,
+    }
+}
+
+export const performChangeLanguage = (data: LanguageType): IAction<LanguageType> => {
+    return {
+        type: actionTypes.CHANGE_LANGUAGE,
+        payload: data,
     }
 }

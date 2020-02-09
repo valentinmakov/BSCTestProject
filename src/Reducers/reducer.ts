@@ -7,6 +7,7 @@ import {
 import * as util from '../common/util'
 
 export const initialState: IData = {
+    language: 'cz',
     isFetching: false,
     activityList: null,
     error: null,
@@ -45,6 +46,12 @@ export const reducer = (state = initialState, action: IAction<any>): IData => {
                 ...state,
                 error: action.payload,
                 isFetching: false,
+            }
+
+        case actionTypes.CHANGE_LANGUAGE:
+            return {
+                ...state,
+                language: action.payload,
             }
 
         default:

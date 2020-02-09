@@ -1,6 +1,7 @@
 import * as actions from '../Actions/actions'
 import {IActivity} from '../Models/Models'
 import {baseURL} from '../Constants/constants'
+import {LanguageType} from '../Models/Models'
 
 const getIsListModel = (dataItem: any): boolean =>
     dataItem.id &&
@@ -66,4 +67,8 @@ export const networkCall = <T>(
         .catch((error: any): void => {
             dispatch(actions.dataRequestFail(error))
         })
+}
+
+export const performChangeLanguage = (language: LanguageType): ((dispatch: Function) => void) => (dispatch: Function): void => {
+    dispatch(actions.performChangeLanguage(language))
 }
